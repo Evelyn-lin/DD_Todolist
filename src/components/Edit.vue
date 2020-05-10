@@ -82,14 +82,11 @@
 </template>
 
 <script>
+import {addTodoList} from '../utils/axios'
 export default {
   name: 'Edit',
   data () {
     return {
-      todo: [
-        {id: 12345, title: '买牛sdasda奶', description: '待办事项', deadline: '2020-5-20', important: 0, person: 'lili', imgsrc: 'http://att3.citysbs.com/200x200/hangzhou/2020/04/15/11/dd6719bd4287d9efd49434c43563a032_v2_.jpg'},
-        {id: 12545, title: '买牛奶', description: '待办事项', deadline: '2020-5-20', important: 0, person: 'lili', imgsrc: 'http://att3.citysbs.com/200x200/hangzhou/2020/04/15/11/dd6719bd4287d9efd49434c43563a032_v2_.jpg'}
-      ],
       message: '代办',
       capital: '',
       colleagueValue: '',
@@ -122,9 +119,17 @@ export default {
     }
   },
   created () {
-
+  },
+  beforeCreate () {
+    var id = this.$route.query.todoid
+    this.searchTodo(id)
   },
   methods: {
+    searchTodo () {
+      // seatchTodoList('/searchTodo', {id}).then(res => {
+      //   this.todo = res.todo
+      // })
+    },
     // 新增Todo
     addTodo () {
       const todo = {}
@@ -134,7 +139,7 @@ export default {
       todo.deadline = this.deadline
       todo.importantValue = this.importantValue
       todo.colleagueValue = this.colleagueValue
-      console.log(todo)
+      addTodoList('/mock', todo)
     },
     handleRemove (file, fileList) {
       // console.log(file, fileList)
