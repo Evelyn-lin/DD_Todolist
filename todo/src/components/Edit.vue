@@ -4,7 +4,7 @@
     <ul class="edit_header">
       <li><router-link to="/"><el-button type="primary"><i class="el-icon-arrow-left"></i></el-button></router-link></li>
       <li>代办</li>
-      <li><router-link to="/"><el-button type="primary" @click="addTodo">保存</el-button></router-link></li>
+      <li><el-button type="primary" @click="addTodo">保存</el-button></li>
     </ul>
   </el-header>
   <el-main>
@@ -83,8 +83,10 @@
 
 <script>
 import {addTodoList} from '../utils/axios'
+import store from '../store'
 export default {
   name: 'Edit',
+  store,
   data () {
     return {
       message: '代办',
@@ -119,16 +121,19 @@ export default {
     }
   },
   created () {
-  },
-  beforeCreate () {
     var id = this.$route.query.todoid
-    this.searchTodo(id)
+    // 如果有id则为修改页面 发送请求获取todo详情
+    if (id) { this.searchTodo(id) }
+    console.log(store.state.todos);
+    
   },
   methods: {
     searchTodo () {
       // seatchTodoList('/searchTodo', {id}).then(res => {
       //   this.todo = res.todo
       // })
+      console.log('发送请求')
+      this.capital = '修改标题吧'
     },
     // 新增Todo
     addTodo () {
@@ -139,7 +144,8 @@ export default {
       todo.deadline = this.deadline
       todo.importantValue = this.importantValue
       todo.colleagueValue = this.colleagueValue
-      addTodoList('/mock', todo)
+      // addTodoList('/mock', todo)
+      this.$router.push({path: '/', query: todo})
     },
     handleRemove (file, fileList) {
       // console.log(file, fileList)

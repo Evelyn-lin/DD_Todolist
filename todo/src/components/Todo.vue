@@ -38,6 +38,8 @@
 
 <script>
 import { getTodoList,deleteTodoList } from '../utils/axios'
+import store from '../store'
+
 var timeOutEvent = 0
 export default {
   name: 'Todo',
@@ -51,6 +53,8 @@ export default {
   created () {
     this.getDate()
     this.getTodo()
+    var query = this.$route.query
+    console.log(query)
   },
   computed: {
     // 筛选toto
@@ -86,10 +90,7 @@ export default {
       // getTodoList('/getTodo').then(res => {
       //   this.todo = res.todo
       // })
-      this.todo = [
-        {id: 12345, completed: false, operateVisible: false, capital: '买牛sdasda奶', description: '待办事项', deadline: '2020-5-20', important: 0, person: 'lili', imgsrc: 'http://att3.citysbs.com/200x200/hangzhou/2020/04/15/11/dd6719bd4287d9efd49434c43563a032_v2_.jpg'},
-        {id: 12545, completed: true, operateVisible: false, capital: '买牛奶', description: '待办事项', deadline: '2020-5-20', important: 0, person: 'lili', imgsrc: 'http://att3.citysbs.com/200x200/hangzhou/2020/04/15/11/dd6719bd4287d9efd49434c43563a032_v2_.jpg'}
-      ]
+      this.todo = store.state.todos;
     },
     handleClick (id) {
       this.$router.push({path: '/edit', query: {todoid: id}})
